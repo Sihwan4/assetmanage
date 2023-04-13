@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      table, th, td {
+  border: 1px solid black;
+}
+td.milmil{
+  background-color: red;
+
+}
+td.new{
+  border-left: 5px solid red;
+}
+td.myFive{ 
+  background-color: green;
+}
+.test{
+    height:30px;
+    width:5%;
+}
+      </style>
+  </head>
+  <body>
+    <label for="GR1"> 자산 상승률 (%) </label>
+<input id="GR1"  type="number" min=0 max=20 value=7></input>
+
+    <label for="GR2"> 저축 상승률 (%) </label>
+
+<input id="GR2"  type="number" min=0 max=20 value=0></input>
+
+<button onclick="drawTab1()"   class='test'> 그ㄹ ㅣㄱ1</button>
+    <div id="tab11"></div>
+
+<br>  
+
+    <script>
+      var d1 = document.getElementById('tab11')
+      function drawTab1(){
+var j0 = 0
+var j1 = 1      
+var char1 = ''
+var assetGR = document.getElementById('GR1').value
+var saveGR = document.getElementById('GR2').value
+
+for(i=0; i<5;i++){
+char1 = char1 + j0 + '<br>'
+j0 = j0+2
+}
+
+var mySave = [2400,3600,4800,6000,9000,12000,18000,24000,36000,60000]
+var mySaveRow = [2400,3600,4800,6000,9000,12000,18000,24000,36000,60000]
+// var myBoldj = [F,F,F,F,F,F,F,F,F,F]
+
+var line0 = '<table style="text-align: right;">'
+
+var saveHead = ''
+var saveD1 = ''
+var saveDn = ''
+
+var saveHead0 =  'Years'
+var rowHead0 = '년 후'
+
+saveHead = saveHead + '<th>' + saveHead0 + '</th>'
+for(i=0;i<mySave.length;i++){
+  saveHead = saveHead + '<th> 자산(이월)</th><th>신규</th><th> 총액(' + mySave[i] + ")</th>"
+}
+
+
+for(i=0;i<mySave.length;i++){
+  saveD1 = saveD1 + '<td>' + mySave[i] + "</td>"
+}
+
+saveDn = saveDn + '<tr><td>0년 후</td>'
+for(i=0;i<mySave.length;i++){
+saveDn = saveDn + '<td class="new">0</td> <td>' + mySave[i] + "</td><td>"  + mySave[i] + "</td>"
+}
+saveDn = saveDn + '</tr>'
+ 
+for(j=1;j<40;j++){
+   var char00 ='' 
+
+   if( j % 5 == 0 ){
+     var tdClass = 'class="myFive"'
+   } else {tdClass = ''}
+  
+ for(i=0;i<mySave.length;i++){ 
+   var addTdStyle= ''
+   var addTdStyle2=''
+   var crit1 = mySaveRow[i] 
+   
+  mySaveRow[i] = mySaveRow[i]*(1+assetGR/100) 
+ char00 = char00 + '<td class="new">' + Math.round(mySaveRow[i]) + '</td>'  
+  mySave[i] = mySave[i] * (1+saveGR/100)
+mySaveRow[i] = mySaveRow[i]   +  mySave[i]
+var crit2 = mySaveRow[i] 
+
+if(crit1 < 1000000& crit2 > 1000000){var addTdStyle = "!!!!"
+addTdStyle2 = 'class="milmil"'
+
+char00 = char00 + '<td>' + Math.round(mySave[i]) + "</td>"
+char00 = char00 + '<td ' + addTdStyle2 + '>' + addTdStyle + Math.round(mySaveRow[i]) + '</td>'
+} else {
+
+char00 = char00 + '<td>' + Math.round(mySave[i]) + "</td>"
+char00 = char00 + '<td ' + tdClass + '>' + addTdStyle + Math.round(mySaveRow[i]) + '</td>'
+}
+ 
+ 
+ }
+ 
+saveDn = saveDn + '<tr> <td>' + (j) + '년 후 </td> ' +  char00 + '</tr>' 
+
+} 
+ 
+line0 = line0 + "<tr>" +   saveHead
+line0 = line0 + ' </tr>'
+line0 = line0 + '<tr>' + saveDn + '</tr>'
+line0 = line0 + '</table>'
+
+      d1.innerHTML =  line0
+      }
+drawTab1()
+    </script>
+  </body>
+</html>
