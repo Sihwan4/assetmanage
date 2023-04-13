@@ -16,10 +16,26 @@ td.new{
 td.myFive{ 
   background-color: green;
 }
+td.newFive{
+  border-left: 5px solid red;
+  background-color: green;
+}
+table#jb-table thead {
+  position:sticky; top:0; z-index: 1;
+  background-color: #eeeeee;
+
+}
+table#jb-table th:first-child,
+table#jb-table td:first-child {
+  background-color: #eeeeee;
+  position:sticky; left:0;
+}
+
 .test{
     height:30px;
     width:5%;
 }
+
       </style>
   </head>
   <body>
@@ -31,7 +47,7 @@ td.myFive{
 <input id="GR2"  type="number" min=0 max=20 value=0></input>
 
 <button onclick="drawTab1()"   class='test'> 그ㄹ ㅣㄱ1</button>
-    <div id="tab11"></div>
+    <div  id="tab11"></div>
 
 <br>  
 
@@ -53,7 +69,7 @@ var mySave = [2400,3600,4800,6000,9000,12000,18000,24000,36000,60000]
 var mySaveRow = [2400,3600,4800,6000,9000,12000,18000,24000,36000,60000]
 // var myBoldj = [F,F,F,F,F,F,F,F,F,F]
 
-var line0 = '<table style="text-align: right;">'
+var line0 = '<table id="jb-table" style="text-align: right;">'
 
 var saveHead = ''
 var saveD1 = ''
@@ -62,11 +78,11 @@ var saveDn = ''
 var saveHead0 =  'Years'
 var rowHead0 = '년 후'
 
-saveHead = saveHead + '<th>' + saveHead0 + '</th>'
+saveHead = saveHead + '<thead><th>' + saveHead0 + '</th>'
 for(i=0;i<mySave.length;i++){
   saveHead = saveHead + '<th> 자산(이월)</th><th>신규</th><th> 총액(' + mySave[i] + ")</th>"
 }
-
+saveHead = saveHead + "</thead>"
 
 for(i=0;i<mySave.length;i++){
   saveD1 = saveD1 + '<td>' + mySave[i] + "</td>"
@@ -83,7 +99,10 @@ for(j=1;j<40;j++){
 
    if( j % 5 == 0 ){
      var tdClass = 'class="myFive"'
-   } else {tdClass = ''}
+     var newClass = 'class="newFive"'
+   } else {
+     var tdClass = ''
+     var newClass = 'class="new"'}
   
  for(i=0;i<mySave.length;i++){ 
    var addTdStyle= ''
@@ -91,7 +110,7 @@ for(j=1;j<40;j++){
    var crit1 = mySaveRow[i] 
    
   mySaveRow[i] = mySaveRow[i]*(1+assetGR/100) 
- char00 = char00 + '<td class="new">' + Math.round(mySaveRow[i]) + '</td>'  
+ char00 = char00 + '<td ' + newClass + '>' + Math.round(mySaveRow[i]) + '</td>'  
   mySave[i] = mySave[i] * (1+saveGR/100)
 mySaveRow[i] = mySaveRow[i]   +  mySave[i]
 var crit2 = mySaveRow[i] 
@@ -99,11 +118,11 @@ var crit2 = mySaveRow[i]
 if(crit1 < 1000000& crit2 > 1000000){var addTdStyle = "!!!!"
 addTdStyle2 = 'class="milmil"'
 
-char00 = char00 + '<td>' + Math.round(mySave[i]) + "</td>"
+char00 = char00 + '<td ' + tdClass + '>' + Math.round(mySave[i]) + "</td>"
 char00 = char00 + '<td ' + addTdStyle2 + '>' + addTdStyle + Math.round(mySaveRow[i]) + '</td>'
 } else {
 
-char00 = char00 + '<td>' + Math.round(mySave[i]) + "</td>"
+char00 = char00 + '<td ' + tdClass + '>' + Math.round(mySave[i]) + "</td>"
 char00 = char00 + '<td ' + tdClass + '>' + addTdStyle + Math.round(mySaveRow[i]) + '</td>'
 }
  
