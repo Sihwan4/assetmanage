@@ -1,5 +1,150 @@
+<!DOCTYPE html>
 <html>
+  <head>
+    <base target="_top">
+    <style>
+      table, th, td {
+  border: 1px solid black;
+  font-size: 0.5px;
+}
+td.milmil{
+  background-color: red;
 
-<body>
-Hello, world!
-</body></html>
+}
+td.new{
+  border-left: 5px solid red;
+}
+td.myFive{ 
+  background-color: green;
+}
+td.newFive{
+  border-left: 5px solid red;
+  background-color: green;
+}
+table#jb-table thead {
+  position:sticky; top:0; z-index: 1;
+  background-color: #eeeeee;
+
+}
+table#jb-table th:first-child,
+table#jb-table td:first-child {
+  background-color: #eeeeee;
+  position:sticky; left:0;
+}
+
+.test{
+    height:30px;
+    width:5%;
+}
+
+      </style>
+  </head>
+  <body>
+    <label for="GR1"> Asset Growth Rate (%) </label>
+<input id="GR1"  type="number" min=0 max=20 value=7></input>
+
+    <label for="GR2"> Save growth (%) </label>
+
+<input id="GR2"  type="number" min=0 max=20 value=0></input>
+
+<button onclick="drawTab1()"   class='test'>On</button>
+    <div  id="tab11">
+
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0, user-scalable=yes, shrink-to-fit=no">
+    </div>
+
+<br>  
+
+    <script>
+      var d1 = document.getElementById('tab11')
+      function drawTab1(){
+var j0 = 0
+var j1 = 1      
+var char1 = ''
+var assetGR = document.getElementById('GR1').value
+var saveGR = document.getElementById('GR2').value
+
+for(i=0; i<5;i++){
+char1 = char1 + j0 + '<br>'
+j0 = j0+2
+}
+
+var mySave = [2400,3600,4800,6000,9000,12000,18000,24000,36000,60000]
+var mySaveRow = [2400,3600,4800,6000,9000,12000,18000,24000,36000,60000]
+// var myBoldj = [F,F,F,F,F,F,F,F,F,F]
+
+var line0 = '<table id="jb-table" style="text-align: right;">'
+
+var saveHead = ''
+var saveD1 = ''
+var saveDn = ''
+
+var saveHead0 =  'Years'
+var rowHead0 = ' y'
+
+saveHead = saveHead + '<thead><th>' + saveHead0 + '</th>'
+for(i=0;i<mySave.length;i++){
+  saveHead = saveHead + '<th> Asset</th><th>save</th><th> Total(' + Intl.NumberFormat('en-US', {style:'currency', currency: 'USD' }).format(mySave[i]) + ")</th>"
+}
+saveHead = saveHead + "</thead>"
+
+for(i=0;i<mySave.length;i++){
+  saveD1 = saveD1 + '<td>' + Intl.NumberFormat('en-US', {style:'currency', currency: 'USD' }).format(mySave[i]) + "</td>"
+}
+
+saveDn = saveDn + '<tr><td>0 y</td>'
+for(i=0;i<mySave.length;i++){
+saveDn = saveDn + '<td class="new">0</td> <td>' + Intl.NumberFormat('en-US', {style:'currency', currency: 'USD' }).format(mySave[i]) + "</td><td>"  + Intl.NumberFormat('en-US', {style:'currency', currency: 'USD' }).format(mySave[i]) + "</td>"
+}
+saveDn = saveDn + '</tr>'
+ 
+for(j=1;j<40;j++){
+   var char00 ='' 
+
+   if( j % 5 == 0 ){
+     var tdClass = 'class="myFive"'
+     var newClass = 'class="newFive"'
+   } else {
+     var tdClass = ''
+     var newClass = 'class="new"'}
+  
+ for(i=0;i<mySave.length;i++){ 
+   var addTdStyle= ''
+   var addTdStyle2=''
+   var crit1 = mySaveRow[i] 
+   
+  mySaveRow[i] = mySaveRow[i]*(1+assetGR/100) 
+ char00 = char00 + '<td ' + newClass + '>' + Intl.NumberFormat('en-US', {style:'currency', currency: 'USD' }).format((mySaveRow[i])) + '</td>'  
+  mySave[i] = mySave[i] * (1+saveGR/100)
+mySaveRow[i] = mySaveRow[i]   +  mySave[i]
+var crit2 = mySaveRow[i] 
+
+if(crit1 < 1000000& crit2 > 1000000){var addTdStyle = "!!!!"
+addTdStyle2 = 'class="milmil"'
+
+char00 = char00 + '<td ' + tdClass + '>' + Intl.NumberFormat('en-US', {style:'currency', currency: 'USD' }).format((mySave[i])) + "</td>"
+char00 = char00 + '<td ' + addTdStyle2 + '>' + addTdStyle + Intl.NumberFormat('en-US', {style:'currency', currency: 'USD' }).format((mySaveRow[i])) + '</td>'
+} else {
+
+char00 = char00 + '<td ' + tdClass + '>' + Intl.NumberFormat('en-US', {style:'currency', currency: 'USD' }).format((mySave[i])) + "</td>"
+char00 = char00 + '<td ' + tdClass + '>' + Intl.NumberFormat('en-US', {style:'currency', currency: 'USD' }).format(addTdStyle + (mySaveRow[i]) )+ '</td>'
+}
+ 
+ 
+ }
+ 
+saveDn = saveDn + '<tr> <td>' + (j) + 'y </td> ' +  char00 + '</tr>' 
+
+} 
+ 
+line0 = line0 + "<tr>" +   saveHead
+line0 = line0 + ' </tr>'
+line0 = line0 + '<tr>' + saveDn + '</tr>'
+line0 = line0 + '</table>'
+
+      d1.innerHTML =  line0
+      }
+drawTab1()
+    </script>
+  </body>
+</html>
